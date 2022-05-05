@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ADHD">
         <activity
+            android:name=".ui.kuisioner.assignment.KuisionerAssignmentActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.home.HomeActivity"
             android:exported="true">
             <intent-filter>
