@@ -11,7 +11,8 @@
         android:theme="@style/Theme.ADHD">
         <activity
             android:name=".ui.kuisioner.assignment.KuisionerAssignmentActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.ADHD.NoActionBar" />
         <activity
             android:name=".ui.home.HomeActivity"
             android:exported="true">

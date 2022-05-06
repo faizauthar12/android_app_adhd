@@ -12,5 +12,17 @@ class KuisionerAssignmentActivity : AppCompatActivity() {
 
         binding = ActivityKuisionerAssignmentBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        supportActionBar()
+    }
+
+    private fun supportActionBar() {
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }
