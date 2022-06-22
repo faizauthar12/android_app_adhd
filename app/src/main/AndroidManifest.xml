@@ -9,6 +9,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ADHD">
         <activity
+            android:name=".ui.kuisioner.result.ResultActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.kuisioner.assignment.KuisionerAssignmentActivity"
             android:exported="false"
             android:theme="@style/Theme.ADHD.NoActionBar" />
