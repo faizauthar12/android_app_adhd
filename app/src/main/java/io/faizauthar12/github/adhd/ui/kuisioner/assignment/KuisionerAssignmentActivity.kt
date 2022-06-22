@@ -15,6 +15,7 @@ import io.faizauthar12.github.adhd.databinding.ContentKuisionerAssignmentBinding
 class KuisionerAssignmentActivity : AppCompatActivity() {
     private lateinit var binding: ActivityKuisionerAssignmentBinding
     private lateinit var contentDetail: ContentKuisionerAssignmentBinding
+    private var mAssignmentAnswer: String? = null
     private var assignmentIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,15 +37,23 @@ class KuisionerAssignmentActivity : AppCompatActivity() {
         contentDetail.btPrevious.setOnClickListener {
             assignmentIndex -= 1
             PopulateContent(assignments)
-            contentDetail.radioGroup.clearCheck()
-            BuildConfig.DEBUG.apply { Log.d(TAG, "onCreate: assignmentIndex: ${assignmentIndex}") }
+            BuildConfig.DEBUG.apply {
+                Log.d(
+                    TAG,
+                    "btPrevious: assignmentIndex: ${assignmentIndex}"
+                )
+                Log.d(TAG, "btnPrevious: mAssignmentAnswer: " + mAssignmentAnswer)
+            }
         }
 
         contentDetail.btNext.setOnClickListener {
+            assignments[assignmentIndex].assignmentAnswer = mAssignmentAnswer
             assignmentIndex += 1
             PopulateContent(assignments)
-            contentDetail.radioGroup.clearCheck()
-            BuildConfig.DEBUG.apply { Log.d(TAG, "onCreate: assignmentIndex: ${assignmentIndex}") }
+            BuildConfig.DEBUG.apply {
+                Log.d(TAG, "btNext: assignmentIndex: ${assignmentIndex}")
+                Log.d(TAG, "btnNext: mAssignmentAnswer: " + mAssignmentAnswer)
+            }
         }
     }
 
@@ -57,15 +66,27 @@ class KuisionerAssignmentActivity : AppCompatActivity() {
             when (view.getId()) {
                 R.id.rb_1 ->
                     if (checked) {
-                        BuildConfig.DEBUG.apply { Log.d(TAG, "onRadioButtonClicked: Ya") }
+                        mAssignmentAnswer = "Ya"
+                        BuildConfig.DEBUG.apply {
+                            Log.d(TAG, "onRadioButtonClicked: Ya")
+                            Log.d(TAG, "mAssignmentAnswer: " + mAssignmentAnswer)
+                        }
                     }
                 R.id.rb_2 ->
                     if (checked) {
-                        BuildConfig.DEBUG.apply { Log.d(TAG, "onRadioButtonClicked: Mungkin") }
+                        mAssignmentAnswer = "Mungkin"
+                        BuildConfig.DEBUG.apply {
+                            Log.d(TAG, "onRadioButtonClicked: Mungkin")
+                            Log.d(TAG, "mAssignmentAnswer: " + mAssignmentAnswer)
+                        }
                     }
                 R.id.rb_3 -> {
                     if (checked) {
-                        BuildConfig.DEBUG.apply { Log.d(TAG, "onRadioButtonClicked: Tidak") }
+                        mAssignmentAnswer = "Tidak"
+                        BuildConfig.DEBUG.apply {
+                            Log.d(TAG, "onRadioButtonClicked: Tidak")
+                            Log.d(TAG, "mAssignmentAnswer: " + mAssignmentAnswer)
+                        }
                     }
                 }
             }
@@ -73,11 +94,9 @@ class KuisionerAssignmentActivity : AppCompatActivity() {
     }
 
     private fun PopulateContent(assignments: List<AssignmentEntity>) {
-        if (assignmentIndex == 0) {
-            contentDetail.btPrevious.visibility = View.INVISIBLE
-        } else {
-            contentDetail.btPrevious.visibility = View.VISIBLE
-        }
+        checkFirstQuestion()
+        checkAnswerIsNull(assignments)
+        assignPreviousAnswer(assignments)
 
         contentDetail.tvKodeGejala.text =
             "Kode Gejala: ${assignments[assignmentIndex].assignmentCode}"
@@ -86,7 +105,39 @@ class KuisionerAssignmentActivity : AppCompatActivity() {
         contentDetail.rb1.text = "Ya"
         contentDetail.rb2.text = "Mungkin"
         contentDetail.rb3.text = "Tidak"
-        contentDetail.btNext.isEnabled = false
+    }
+
+    private fun checkFirstQuestion() {
+        if (assignmentIndex == 0) {
+            contentDetail.btPrevious.visibility = View.INVISIBLE
+        } else {
+            contentDetail.btPrevious.visibility = View.VISIBLE
+        }
+    }
+
+    private fun checkAnswerIsNull(assignments: List<AssignmentEntity>) {
+        contentDetail.btNext.isEnabled = assignments[assignmentIndex].assignmentAnswer != null
+
+        if (assignments[assignmentIndex].assignmentAnswer == null) {
+            contentDetail.radioGroup.clearCheck()
+        }
+    }
+
+    private fun assignPreviousAnswer(assignments: List<AssignmentEntity>) {
+        when (assignments[assignmentIndex].assignmentAnswer) {
+            "Ya" -> {
+                contentDetail.rb1.isChecked = true
+                mAssignmentAnswer = "Ya"
+            }
+            "Mungkin" -> {
+                contentDetail.rb2.isChecked = true
+                mAssignmentAnswer = "Mungkin"
+            }
+            "Tidak" -> {
+                contentDetail.rb3.isChecked = true
+                mAssignmentAnswer = "Tidak"
+            }
+        }
     }
 
     private fun supportActionBar() {

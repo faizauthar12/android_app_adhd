@@ -4,4 +4,5 @@ data class AssignmentEntity(
     val assignmentId: Int,
     val assignmentCode: String,
     val assignmentDesc: String,
+    var assignmentAnswer: String? = null,
 )
