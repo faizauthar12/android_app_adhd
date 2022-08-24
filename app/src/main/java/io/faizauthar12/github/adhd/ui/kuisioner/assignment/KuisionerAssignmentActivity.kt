@@ -6,8 +6,8 @@ import android.view.View
 import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import io.faizauthar12.github.adhd.BuildConfig
 import io.faizauthar12.github.adhd.R
+import io.faizauthar12.github.adhd.BuildConfig
 import io.faizauthar12.github.adhd.data.local.entity.AssignmentEntity
 import io.faizauthar12.github.adhd.databinding.ActivityKuisionerAssignmentBinding
 import io.faizauthar12.github.adhd.databinding.ContentKuisionerAssignmentBinding
@@ -47,12 +47,16 @@ class KuisionerAssignmentActivity : AppCompatActivity() {
         }
 
         contentDetail.btNext.setOnClickListener {
-            assignments[assignmentIndex].assignmentAnswer = mAssignmentAnswer
-            assignmentIndex += 1
-            PopulateContent(assignments)
-            BuildConfig.DEBUG.apply {
-                Log.d(TAG, "btNext: assignmentIndex: ${assignmentIndex}")
-                Log.d(TAG, "btnNext: mAssignmentAnswer: " + mAssignmentAnswer)
+            if (assignmentIndex == assignments.size) {
+
+            } else {
+                assignments[assignmentIndex].assignmentAnswer = mAssignmentAnswer
+                assignmentIndex += 1
+                PopulateContent(assignments)
+                BuildConfig.DEBUG.apply {
+                    Log.d(TAG, "btNext: assignmentIndex: ${assignmentIndex}")
+                    Log.d(TAG, "btnNext: mAssignmentAnswer: " + mAssignmentAnswer)
+                }
             }
         }
     }
